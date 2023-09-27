@@ -18,6 +18,7 @@ Dependencies
 * PIL (only for the example data)
 * Numpy (only for the example data)
 * Matplotlib
+* Nibabel (optional, only for loading NiFTI files)
 
 Usage
 -----
@@ -61,6 +62,36 @@ plt.show()
 ```
 
 ![Cat](cat.jpg) ![psd1D](psd1D.png)
+
+Let's say you want to look at the power spectrum of a NiFTI file. 
+You can use [NiBabel](https://nipy.org/nibabel/) to load the file and convert it to a PyTorch tensor.
+Here is an example:
+
+```Python
+import torch
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+from SpectralProfile import get_spectrum
+import nibabel as nib
+
+# Read NiFTI file and convert to PyTorch tensor
+img = nib.load('./example.nii.gz')
+arr = img.get_fdata()
+arr = torch.tensor(arr).float()
+arr = arr.squeeze()
+
+# Get 1D PSD of the image
+psd1D = get_spectrum(arr)
+
+# Plot the PSD
+plt.plot(psd1D)
+plt.xlabel('Spatial Frequency')
+plt.ylabel('Log Power Spectral Density')
+plt.title('1D Power Spectrum')
+plt.savefig('./psd1D.png', dpi=300, bbox_inches='tight')
+plt.show()
+```
 
 
 
