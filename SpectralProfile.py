@@ -102,5 +102,8 @@ if __name__ == '__main__':
     psd1D = get_spectrum(arr)
 
     plt.plot(psd1D)
-    plt.savefig('./psd1D.png', dpi=300)
+    plt.xlabel('Spatial Frequency')
+    plt.ylabel('Log Power Spectral Density')
+    plt.title('1D Power Spectrum')
+    plt.savefig('./psd1D.png', dpi=300, bbox_inches='tight')
     plt.show()
